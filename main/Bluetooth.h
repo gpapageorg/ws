@@ -3,38 +3,71 @@ class Bluetooth
 {
   private:
     //static String ssend;
+    static int i;
     static char got[10];
-    
     public:
       static bool readBlue(Main *m , Secondary *s)
       {
-        int availableBytes;
-        if (availableBytes = MyBlue.available())
-        {
-          for(int i = 0; i< availableBytes; i++)
+
+          //sprintgot();
+
+          while(MyBlue.available())
           { 
             got[i] = MyBlue.read();
-            got[i+1] = '\0'; // Append a null
             
+            if (i < 9 && got[i] == '\n')
+            {
+              got[i + 1] = '\0';
+              Serial.println("IN1");
+
+              break;
+              
+            }
+            else if (i >= 9)
+            {
+              Serial.println("IN2");
+              //got[0] = '\0';
+              i = 0;
+              return false;  
+            }
+            i++;
           }
-          Serial.println(got);
-        }
         
        
-        if(strcmp(got, BRING_KEYWORD) == 0)
+        if(got[i] == '\n')
         {
-          sendString(m, s);
-          got[0] = '\0';
-          Serial.println(F("Debug: Send All Sensors Data Via Bluetooth"));
-          return true;
-        }
-        else
-        {
-          got[0] = '\0';
-          return false;
+          if (strcmp(got, BRING_KEYWORD) == 0)
+          {
+              Serial.println("IN3");
+
+            i = 0;
+            Serial.print(got);
+            got[0] = '\0';
+            sendString(m, s);
+            Serial.println(F("Debug: Send All Sensors Data Via Bluetooth"));
+            return true;
+          }
+          else
+          {
+              Serial.println("IN4");
+
+           i = 0;
+           //got[0] = '\0';
+           return false;
+          }
         }
 
+        else
+          return false;
+        
       }
+
+    static void printgot()
+    {
+      for (int i = 0; i < 10; i++)
+        Serial.print(got[i]);
+    }
+      
 
   public:
     static void sendString(Main *m, Secondary *s)
@@ -48,7 +81,7 @@ class Bluetooth
         for(int i = 0; i < MAX_STATIONS; i++)
           sprintf(&send[19 + 10*i], "|%1d %3d %3d", s[i].getId() + 1, s[i].getDallasTemp(), s[i].getDhtHumidity());
 
-      send[20+10*MAX_STATIONS] = '\n';
+      send[20+10*(MAX_STATIONS)] = '\n';
       
       Serial.println(send);
       MyBlue.write(send);      
@@ -56,3 +89,4 @@ class Bluetooth
 
 };
 char Bluetooth::got[10];
+int Bluetooth::i = 0;

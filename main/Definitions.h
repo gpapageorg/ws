@@ -7,9 +7,8 @@
 #define BMP_CS   (10)
 #define BUFF_SIZE 50
 #define MAX_STATIONS 2
-#define BRING_KEYWORD "fetch"
+#define BRING_KEYWORD "fetch\n"
 #define MAIN_SENSORS_INTERVAL 3
-
 
 #include <SoftwareSerial.h> 
 #include <OneWire.h>

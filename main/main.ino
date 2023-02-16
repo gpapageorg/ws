@@ -42,7 +42,7 @@ void loop(void)
 
   Bluetooth::readBlue(&mainStation, secStations);
 
-  delay(100);
+  delay(10);
 }
 
 

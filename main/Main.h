@@ -37,7 +37,7 @@ class Main: private Station
         //Method That Gets And Sets Sensors Data
 
       sensors.requestTemperatures();
-      temp = (int) (round(sensors.getTempCByIndex(0)) * 10);
+      temp = (int) round(sensors.getTempCByIndex(0) * 10);
 
       if(temp == DEVICE_DISCONNECTED_C) 
        Serial.println(F("Error Could Not Read Dallas Temperature"));
