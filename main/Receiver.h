@@ -71,7 +71,7 @@ class Receiver
       sscanf(bufc, "%d %d %d", &data.id, &ttemp, &thumidity);
       data.temp = ttemp;
       data.humidity = thumidity;
-      //Serial.println((char *) bufc);
+      Serial.println((char *) bufc);
       received[data.id] = data;
     }
   public:
@@ -80,7 +80,7 @@ class Receiver
     IncomingData d;
     d.humidity = -300;
     d.temp = -300;
-    d.id = -300;
+    d.id = -3;
     for (int i = 0; i < MAX_STATIONS; i++)
     { 
       received[i] = d;

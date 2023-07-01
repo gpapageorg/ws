@@ -7,6 +7,7 @@ Main mainStation;
 Receiver re;
 Secondary secStations[MAX_STATIONS];
 Bluetooth ble;
+Display disp;
 
 void setup(void)
 {
@@ -20,7 +21,12 @@ void setup(void)
   MyBlue.begin(9600);
   initializeStations(secStations);
   Receiver::initializeReceived();
-  delay(1000);
+  disp.initializeDisp();
+  delay(2000);
+  
+
+ 
+  
 }
 
 void loop(void)
@@ -37,10 +43,15 @@ void loop(void)
   {
     Serial.println(F("Debug: Got Main Station Data"));
     mainStation.getSensorsData();
+    Serial.print("Temp from main:");
+    Serial.println(mainStation.getDallasTemp());
+    disp.displayMainScreen(&mainStation, secStations);
+    
     lastDataTime = currentTime;
   }
 
   Bluetooth::readBlue(&mainStation, secStations);
+  //Bluetooth::printgot();
 
   delay(10);
 }
@@ -61,6 +72,7 @@ void initializeStations(Secondary *st)
 {
   for (int i = 0; i < MAX_STATIONS; i++)
   {
+    st[i].setId(-3);
     st[i].setTemp(-300.0);
     st[i].setHumidity(-300.0);
   }

@@ -6,7 +6,7 @@
 #define BMP_MOSI (11)
 #define BMP_CS   (10)
 #define BUFF_SIZE 50
-#define MAX_STATIONS 2
+#define MAX_STATIONS 1
 #define BRING_KEYWORD "fetch\n"
 #define MAIN_SENSORS_INTERVAL 3
 
@@ -26,3 +26,7 @@
 #include "Receiver.h"
 #include "Bluetooth.h"
 #include <TimeLib.h>
+
+#include <LiquidCrystal_I2C.h>
+#include "CustomChars.h"
+#include "Display.h"

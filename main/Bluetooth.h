@@ -1,6 +1,7 @@
 SoftwareSerial MyBlue(2, 3); // RX TX
 class Bluetooth
 {
+
   private:
     //static String ssend;
     static int i;
@@ -14,12 +15,11 @@ class Bluetooth
           while(MyBlue.available())
           { 
             got[i] = MyBlue.read();
-            
+            Serial.print("Avail");
             if (i < 9 && got[i] == '\n')
             {
               got[i + 1] = '\0';
               Serial.println("IN1");
-
               break;
               
             }
@@ -31,6 +31,7 @@ class Bluetooth
               return false;  
             }
             i++;
+            
           }
         
        
@@ -79,11 +80,11 @@ class Bluetooth
 
       
         for(int i = 0; i < MAX_STATIONS; i++)
-          sprintf(&send[19 + 10*i], "|%1d %3d %3d", s[i].getId() + 1, s[i].getDallasTemp(), s[i].getDhtHumidity());
+          sprintf(&send[19 + 14*i], "|%3d %4d %4d", s[i].getId() + 1, s[i].getDallasTemp(), s[i].getDhtHumidity());
 
-      send[20+10*(MAX_STATIONS)] = '\n';
+      send[20 + 14*MAX_STATIONS] = '\n';
       
-      Serial.println(send);
+      Serial.print(send);
       MyBlue.write(send);      
     }
 
