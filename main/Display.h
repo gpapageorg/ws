@@ -16,13 +16,12 @@ class Display
         lcd -> setCursor(5,3);
         lcd -> print(F("Booting..."));
         createCustomChar();
-        delay(1500);
+        delay(1000);
         lcd -> clear();
       }
 
-      void displayMainScreen(Main *m, Secondary *sec)
+      void displayMainScreen(Main *m)
       { 
-        lcd-> clear();
         lcd -> setCursor(0,0);
         lcd -> write(0);
         lcd -> print((int)round(m->getDallasTemp()/10.0));
@@ -38,8 +37,13 @@ class Display
         lcd -> setCursor(15,1);
         lcd -> write(3);
         lcd -> print((int) m->getBmpAlt());
-
+        lcd -> setCursor(8,0);
+        lcd -> print("Home");
         
+      }
+
+    void updateSecondariesScreen(Secondary *sec)
+    {
         lcd -> setCursor(0,3);
         lcd -> write(0);
         lcd -> print((int)round(sec[0].getDallasTemp()/10.0));
@@ -49,17 +53,22 @@ class Display
         lcd -> write(1);
         lcd -> print(sec[0].getDhtHumidity());
         lcd -> print("%");
-        
-        lcd -> setCursor(8,0);
-        lcd -> print("Home");
+
         lcd -> setCursor(6,2);
         lcd -> print("Balcony");
-      }
-
-      void clearDisp()
+    }
+    void clearScreen()
+    {
+      lcd -> clear();
+    }
+    void clearLine(int line)
+    {
+      for(int i=0; i<=19; i++)
       {
-        lcd->clear();
+        lcd -> setCursor(i,line);
+        lcd -> print(" ");
       }
+    }
 
      private:
       void createCustomChar()

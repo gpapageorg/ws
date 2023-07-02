@@ -1,7 +1,7 @@
 #include "Definitions.h"
 
 unsigned long lastDataTime = 0;
-
+unsigned long secLastDataTime = 0;
 
 Main mainStation;
 Receiver re;
@@ -21,8 +21,9 @@ void setup(void)
   MyBlue.begin(9600);
   initializeStations(secStations);
   Receiver::initializeReceived();
+  
   disp.initializeDisp();
-  delay(2000);
+  delay(1000);
   
 
  
@@ -36,18 +37,29 @@ void loop(void)
   if (re.get())
   { // Get Incoming Values From All Stations
 
+    
     Serial.println(F("Debug: Got Secondary Stations Data"));
     setStationsData(secStations);
-  }
-  if(currentTime >= lastDataTime + MAIN_SENSORS_INTERVAL)
-  {
-    Serial.println(F("Debug: Got Main Station Data"));
-    mainStation.getSensorsData();
-    Serial.print("Temp from main:");
-    Serial.println(mainStation.getDallasTemp());
-    disp.displayMainScreen(&mainStation, secStations);
     
+    secLastDataTime = currentTime;
+  }
+  if(currentTime >= lastDataTime + MAIN_SENSORS_INTERVAL || lastDataTime == 0 )
+  {
+    
+    Serial.println(F("Debug: Got Main Station Data"));
+    mainStation.getSensorsData();    
+    disp.displayMainScreen(&mainStation);
+    
+    if(areSecondaries(secStations) && !secStations[0].areOutdated(currentTime, secLastDataTime))
+      disp.updateSecondariesScreen(secStations);
+    else
+    {
+      disp.clearLine(2);
+      disp.clearLine(3);
+      Serial.println("in else");
+    }
     lastDataTime = currentTime;
+
   }
 
   Bluetooth::readBlue(&mainStation, secStations);
@@ -76,5 +88,17 @@ void initializeStations(Secondary *st)
     st[i].setTemp(-300.0);
     st[i].setHumidity(-300.0);
   }
+}
+bool areSecondaries(Secondary *st)
+{
+  //FOR THIS VERSION WE HAVE ONLY ONE STATION WITH ID 0
 
-}       
+  if(st[0].getId()==0)
+    return true;
+  else
+    return false;
+ 
+}
+ 
+
+       

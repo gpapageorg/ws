@@ -33,5 +33,13 @@ class Secondary : private Station
     {
       this -> id = id;
     }
+
+    bool areOutdated(int currentTime, int lastDataTime)
+    {
+      if(currentTime>=lastDataTime + OUTDATED_INTERVAL)
+        return true;
+      else
+        return false;
+    }
   
 };
