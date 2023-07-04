@@ -3,67 +3,55 @@
 #include <DHT.h>
 #include <RH_ASK.h>
 #include <SPI.h> 
+#include "LowPower.h"
 
 #define DALLAS_PIN 4
 #define DHTPIN 3
 #define DHTTYPE DHT22
 #define BUFF_SIZE 50 
-#define ID 1
+#define ID 0
 
 RH_ASK driver(1000, 9, 8, 0);
 
 /*Dallas Setup*/
-OneWire oneWire(DALLAS_PIN);
-DallasTemperature sensors(&oneWire);
+
 
 /* DHT 22 SETUP */
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
+  
   pinMode(7, OUTPUT);
   digitalWrite(7,HIGH);
-  
-  delay(500);
-
-  sensors.begin(); // Start up Dallas Library
-  dht.begin(); // Start up DHT22
 
   if (!driver.init())
-	Serial.println("init failed");
-
+    Serial.println("init failed");
+  
   Serial.begin(9600);
+  dht.begin();
+  digitalWrite(7,LOW);
 
 }
 
 void loop() 
 {
-  char word[BUFF_SIZE];
-
-  float temp, humidity;
-
-  temp = getDallasTemp();
-  humidity = getDhtHumidity();
-  
-  sprintf(word, "%d %4d %4d",ID , (int) (temp * 100), (int) (humidity * 100));
-  Serial.println(temp);
-  Serial.println(humidity);
-  Serial.println(word);
-  
 
 
-  driver.send((uint8_t *)word, strlen(word));
-	driver.waitPacketSent();
-
-  delay(5000);
+  getAndSend();
+  for(int i=0; i<=7; i++)
+  {
+    LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
+  }
+  //delay(5000);
 
 }
 
-float getDallasTemp()
+float getDallasTemp(DallasTemperature *sensors)
 {
   float temp;
   /* Method That Gets And Returns Dallas Sensor Temperature */
-  sensors.requestTemperatures();
-  temp = sensors.getTempCByIndex(0);
+  sensors -> requestTemperatures();
+  temp = sensors->getTempCByIndex(0);
 
   if(temp != DEVICE_DISCONNECTED_C) 
     return temp;
@@ -82,7 +70,39 @@ float getDhtHumidity()
   else
   {
     Serial.println("Error Reading DHT22 Humidity");
-    return -300;
+    return humidity ;
   }
-}  
+}
 
+void getAndSend()
+{
+    OneWire oneWire(DALLAS_PIN);
+
+    DallasTemperature sensors(&oneWire);
+
+ 
+    char toSend[BUFF_SIZE];
+    float temp, humidity;
+    digitalWrite(7,HIGH);
+
+
+    sensors.begin();
+    delay(1000);
+
+
+    
+    temp = getDallasTemp(&sensors);
+    humidity = getDhtHumidity();
+
+    sprintf(toSend, "%d %4d %4d",ID , (int) (round(temp * 10)), (int) round(humidity));
+
+    
+    driver.send((uint8_t *)toSend, strlen(toSend));
+    driver.waitPacketSent();
+        
+    Serial.println(temp);
+    Serial.println(humidity);
+    Serial.println(toSend);
+    digitalWrite(7,LOW);
+
+}
