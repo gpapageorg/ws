@@ -10,8 +10,6 @@ class Bluetooth
       static bool readBlue(Main *m , Secondary *s)
       {
 
-          //sprintgot();
-
           while(MyBlue.available())
           { 
             got[i] = MyBlue.read();

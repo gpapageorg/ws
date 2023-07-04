@@ -51,7 +51,6 @@ class Main: private Station
       pressure = (int) (bmp.readPressure() / 100);
 
       alt = round(bmp.readAltitude());
-
     }        
 
 };
