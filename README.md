@@ -9,3 +9,4 @@ The main Station gathers both its data and the data from the secondary station, 
 # Features
 * Autonomous Secondary Stations
 * Support For Multiple Secondary Stations
+* Phone Application
