@@ -1,11 +1,16 @@
+/*------------------------------------------*/
+// This header file contains the class that
+// controls the bluetooth module
+/*------------------------------------------*/
+
 SoftwareSerial MyBlue(2, 3); // RX TX
 class Bluetooth
 {
 
   private:
-    //static String ssend;
     static int i;
     static char got[10];
+
     public:
       static bool readBlue(Main *m , Secondary *s)
       {
@@ -19,12 +24,9 @@ class Bluetooth
               got[i + 1] = '\0';
               Serial.println("IN1");
               break;
-              
             }
             else if (i >= 9)
-            {
-              Serial.println("IN2");
-              //got[0] = '\0';
+            {              
               i = 0;
               return false;  
             }
@@ -37,21 +39,21 @@ class Bluetooth
         {
           if (strcmp(got, BRING_KEYWORD) == 0)
           {
-              Serial.println("IN3");
-
             i = 0;
             Serial.print(got);
             got[0] = '\0';
+
             sendString(m, s);
             Serial.println(F("Debug: Send All Sensors Data Via Bluetooth"));
+
             return true;
           }
           else
           {
-              Serial.println("IN4");
+            Serial.println("IN4");
 
-           i = 0;
-           //got[0] = '\0';
+            i = 0;
+            
            return false;
           }
         }
