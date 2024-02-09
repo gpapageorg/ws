@@ -39,7 +39,7 @@ class Main: private Station
       sensors.requestTemperatures();
       temp = (int) round(sensors.getTempCByIndex(0) * 10);
 
-      Serial.print(sizeof(temp));
+      //Serial.print(sizeof(temp));
       if(temp == DEVICE_DISCONNECTED_C) 
        Serial.println(F("Error Could Not Read Dallas Temperature"));
       

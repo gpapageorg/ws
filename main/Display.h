@@ -24,19 +24,29 @@ class Display
       { 
         lcd -> setCursor(0,0);
         lcd -> write(0);
-        lcd -> print((int)round(m->getDallasTemp()/10.0));
-        lcd -> print("C");
+        lcd -> print((int)round(m->getDallasTemp()/10.0));  
+        lcd -> print("C"); 
         lcd -> print((char)223);
+
         lcd -> setCursor(0,1);
+        lcd -> write(2);
+        lcd -> print((int) m->getBmpPressure());
+
+        // lcd -> write(1);
+        // lcd -> print((int) m->getDhtHumidity());
+        // lcd -> print("%");
+
+        lcd -> setCursor(15,0);
+        // lcd -> write(2);
+        // lcd -> print((int) m->getBmpPressure());
         lcd -> write(1);
         lcd -> print((int) m->getDhtHumidity());
         lcd -> print("%");
-        lcd -> setCursor(15,0);
-        lcd -> write(2);
-        lcd -> print((int) m->getBmpPressure());
+
         lcd -> setCursor(15,1);
         lcd -> write(3);
         lcd -> print((int) m->getBmpAlt());
+        
         lcd -> setCursor(8,0);
         lcd -> print("Home");
         

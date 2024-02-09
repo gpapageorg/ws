@@ -38,7 +38,6 @@ void setup(void)
   disp.initializeDisp(); // Initialize Display  (Actually Displing Booting Screen)
   
   delay(1000);
-  `
 }
 
 void loop(void)
