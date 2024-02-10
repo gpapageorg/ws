@@ -11,10 +11,7 @@
 #define BUFF_SIZE 50 
 #define ID 0
 
-RH_ASK driver(1000, 9, 8, 0);
-
-/*Dallas Setup*/
-
+RH_ASK driver(1000, 12, 8, 0);
 
 /* DHT 22 SETUP */
 DHT dht(DHTPIN, DHTTYPE);
@@ -22,6 +19,8 @@ DHT dht(DHTPIN, DHTTYPE);
 void setup() {
   
   pinMode(7, OUTPUT);
+  pinMode(9, OUTPUT);
+
   digitalWrite(7,HIGH);
 
   if (!driver.init())
@@ -29,7 +28,6 @@ void setup() {
   
   Serial.begin(9600);
   dht.begin();
-  digitalWrite(7,LOW);
 
 }
 
@@ -42,7 +40,7 @@ void loop()
   {
     LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
   }
-  //delay(5000);
+//  delay(5000);
 
 }
 
@@ -83,11 +81,10 @@ void getAndSend()
  
     char toSend[BUFF_SIZE];
     float temp, humidity;
-    digitalWrite(7,HIGH);
+    digitalWrite(9,HIGH);
 
-
-    sensors.begin();
     delay(1000);
+    sensors.begin();
 
 
     
@@ -103,6 +100,6 @@ void getAndSend()
     Serial.println(temp);
     Serial.println(humidity);
     Serial.println(toSend);
-    digitalWrite(7,LOW);
+    digitalWrite(9,LOW);
 
 }
