@@ -21,17 +21,19 @@ class Display
       }
 
       void displayMainScreen(Main *m)
-      { 
+      {
         lcd -> setCursor(0,0);
         lcd -> write(0);
         lcd -> print((int)round(m->getDallasTemp()/10.0));  
         lcd -> print("C"); 
         lcd -> print((char)223);
+        lcd -> print("   ");
 
         lcd -> setCursor(0,1);
         lcd -> write(2);
         lcd -> print((int) m->getBmpPressure());
-
+        lcd -> print("   ");
+        
         // lcd -> write(1);
         // lcd -> print((int) m->getDhtHumidity());
         // lcd -> print("%");
@@ -42,11 +44,13 @@ class Display
         lcd -> write(1);
         lcd -> print((int) m->getDhtHumidity());
         lcd -> print("%");
+        lcd -> print(" ");
 
         lcd -> setCursor(15,1);
         lcd -> write(3);
         lcd -> print((int) m->getBmpAlt());
-        
+        lcd -> print(" ");
+
         lcd -> setCursor(8,0);
         lcd -> print("Home");
         
@@ -59,10 +63,14 @@ class Display
         lcd -> print((int)round(sec[0].getDallasTemp()/10.0));
         lcd -> print("C");
         lcd -> print((char)223);
+        lcd -> print("   ");
+        
         lcd -> setCursor(15,3);
         lcd -> write(1);
         lcd -> print(sec[0].getDhtHumidity());
         lcd -> print("%");
+        lcd -> print(" ");
+
 
         lcd -> setCursor(6,2);
         lcd -> print("Balcony");
