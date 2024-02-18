@@ -21,7 +21,6 @@ Display disp;
 
 void setup(void)
 {
-  
   sensors.begin(); // Start up Dallas Library
   dht.begin(); // Start up DHT22
   bmp.begin(0x76); //Start up bmp 280
@@ -36,7 +35,8 @@ void setup(void)
   Receiver::initializeReceived();
   
   disp.initializeDisp(); // Initialize Display  (Actually Displing Booting Screen)
-  
+  Serial.println(calculateDewPoint(24,25));
+
   delay(1000);
 }
 
@@ -112,6 +112,6 @@ bool areSecondaries(Secondary *st)
   else
     return false;
 }
- 
+
 
        

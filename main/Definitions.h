@@ -11,7 +11,6 @@
 #define MAIN_SENSORS_INTERVAL 3
 #define OUTDATED_INTERVAL 600
 
-
 #include <SoftwareSerial.h> 
 #include <OneWire.h>
 #include <DallasTemperature.h>
@@ -20,8 +19,9 @@
 #include <Wire.h>
 #include <SPI.h>
 
-#include "RH_ASK.h"
 
+#include "SpecialFunctions.h"
+#include "RH_ASK.h"
 #include "Station.h"
 #include "Main.h"
 #include "Second.h"
