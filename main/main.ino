@@ -60,17 +60,19 @@ void loop(void)
     // IMPORTANT IF gathering, sending and displaying sensors data
 
    
-    Serial.println(F("Debug: Got Main Station Data"));
+    Serial.println(F("Got Main"));
     mainStation.getSensorsData();    
     disp.displayMainScreen(&mainStation);
     
     if(areSecondaries(secStations) && !secStations[0].areOutdated(currentTime, secLastDataTime))
+    {
       disp.updateSecondariesScreen(secStations);
+    }
     else
     {
+      setExpiredData(&secStations[0]);
       disp.clearLine(2);
       disp.clearLine(3);
-      //Serial.println("in else");
     }
     lastDataTime = currentTime;
 
@@ -112,6 +114,11 @@ bool areSecondaries(Secondary *st)
   else
     return false;
 }
-
+void setExpiredData(Secondary *st)
+{
+    st->setId(-3);
+    st->setTemp(-300.0);
+    st->setHumidity(-300.0);
+}
 
        

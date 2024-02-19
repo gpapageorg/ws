@@ -40,7 +40,7 @@ class Display
         lcd -> write(2);
         lcd -> print(" ");
         lcd -> print((int) m->getBmpPressure());  
-        lcd -> print(" ");
+        lcd -> print("    ");
       
         lcdPrintInverse((int) m->getBmpAlt(),17,1);
 
@@ -76,8 +76,8 @@ class Display
         lcd -> print(" ");
         lcd -> print(hid);
 
-        lcdPrintInverse(dew,11,3);
-        lcd -> setCursor(12,3);
+        lcdPrintInverse(dew,10,3);
+        lcd -> setCursor(11,3);
         lcd -> print(" ");
         lcd -> write(5);
 
@@ -118,19 +118,23 @@ class Display
         bool isNeg = num >= 0 ? false : true;
         num = abs(num);
 
-        while(num > 0){
+        do{
           k = num % 10;
           lcd -> setCursor(column,line);
           lcd -> print(k);
           num /= 10;
           k = num % 10;
-          column -= 1;
-        }
+          column--;
+        }while(num > 0);
+
         if(isNeg)
         {
           lcd -> setCursor(column,line);
           lcd -> print("-");
         }
+
+        lcd -> setCursor(--column,line);
+        lcd -> print("  ");
 
       }
       

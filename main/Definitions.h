@@ -9,7 +9,7 @@
 #define MAX_STATIONS 1
 #define BRING_KEYWORD "fetch\n"
 #define MAIN_SENSORS_INTERVAL 3
-#define OUTDATED_INTERVAL 600
+#define OUTDATED_INTERVAL 120
 
 #include <SoftwareSerial.h> 
 #include <OneWire.h>
